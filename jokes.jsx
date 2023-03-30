@@ -8,16 +8,18 @@ function Main() {
       const res = await fetch("https://v2.jokeapi.dev/joke/Any");
       const data = await res.json();
       setDuck(data);
-    }, 5000);
+    }, 8000);
     return () => {
       clearInterval(timer);
     };
   }, []);
-  console.log(
+  /*console.log(
     champs.map((qwack) => {
       return qwack.Name;
     })
-  );
+  );*/
+  console.log("je marcheee");
+  console.log(duck);
   if (duck.joke) {
     return (
       <div style={{ color: "blue", textAlign: "center" }}>{duck.joke}</div>
@@ -31,6 +33,6 @@ function Main() {
     );
   }
 }
-const isActive = false;
 
-ReactDOM.render(isActive ? <Main /> : "", app);
+
+ReactDOM.render(<Main />, app);

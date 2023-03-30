@@ -1,1 +1,1 @@
-# ducks
+# ducks are fcking awesome 
