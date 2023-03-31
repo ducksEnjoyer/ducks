@@ -10,22 +10,41 @@ function Main() {
     setCurrentSentence(e.target.value);
   }
   function handleClick() {
-
-    setSentences([...sentences, currentSentence]);
+    setDisplaySentence([...displaySentence,currentSentence]);
+  setSentences([...sentences, currentSentence]);
+  
+  
+    
     setCurrentSentence("");
     // console.log(e.target.key);
-    // setDisplaySentence(sentences);
+    
+    
 
   }
 
+/*console.log("phrase qu on ecrit" + currentSentence)
+console.log("l array de sentences" +sentences)
+console.log("ce qui est censé s affficher" + displaySentence)*/
   function handleSearch(e) {
     setSearch(e.target.value);
-    const newFilteredSentences = sentences.filter(a => a.includes(e.target.value))
-    console.log(newFilteredSentences)
-    setFilteredSentences(newFilteredSentences)
+    if(search !== ""){
+      setFilteredSentences(sentences.filter(a => a.includes(search)== true))
+      console.log( "ceci est search :" +search)
+      console.log("ceci est filter :" + filteredSentences)
+      console.log("ça marche");
+      setDisplaySentence(filteredSentences);
+      }
+    else{
+      console.log(filteredSentences)
+      setFilteredSentences(sentences.filter(a => a.includes(search)== true))
+    }
+    
+    
+    
     
   }
-  console.log({ sentences, filteredSentences, search })
+  
+  //console.log({ sentences, filteredSentences, search })
   return (
     <>
       <h1>ToDo List</h1>
@@ -36,13 +55,13 @@ function Main() {
         placeholder="add a element to ur list"
       />
       <input
-
-        onChange={handleSearch}
-        placeholder="Search for a element in your list"
-      />
+value={search}
+onChange={handleSearch}
+placeholder="Search for a element in your list"
+/><h1>{search} "et" {filteredSentences}</h1>
       <button onClick={handleClick}>add</button>
       <ul>
-        {filteredSentences.map(whatever => (
+        {displaySentence.map(whatever => (
           <li key={whatever}> {whatever}</li>
         ))}
       </ul>
