@@ -34,5 +34,5 @@ function Main() {
   }
 }
 
-
-ReactDOM.render(<Main />, app);
+const isActive = false
+ReactDOM.render(isActive ? <Main /> : "", app);

@@ -2,119 +2,97 @@ const app = document.getElementById("app");
 function Main() {
   const [sentences, setSentences] = React.useState([]);
   const [currentSentence, setCurrentSentence] = React.useState("");
-  const [voila,setVoila] = React.useState("");
-  const [indicateur,setIndicateur] = React.useState("1");
+  const [search, setSearch] = React.useState("");
+  const [filteredSentences, setFilteredSentences] = React.useState([]);
+  const [displaySentence ,setDisplaySentence] = React.useState([]);
 
   function handleChange(e) {
     setCurrentSentence(e.target.value);
-    console.log(currentSentence);
   }
-  function handleClick(e) {
-    
+  function handleClick() {
+
     setSentences([...sentences, currentSentence]);
     setCurrentSentence("");
-    console.log(e.target.key);
-    setIndicateur("1");
+    // console.log(e.target.key);
+    // setDisplaySentence(sentences);
+
   }
- 
-  function handleClick2(){
-    
-      
-    setSentences(sentences.filter(a=> a !== currentSentence));
-    setCurrentSentence("");
-    setIndicateur("2");
-    
+
+  function handleSearch(e) {
+    setSearch(e.target.value);
+    const newFilteredSentences = sentences.filter(a => a.includes(e.target.value))
+    console.log(newFilteredSentences)
+    setFilteredSentences(newFilteredSentences)
     
   }
-  function handleClick3(){
-    setVoila(sentences.filter(a=> a.includes(currentSentence)));
-    setCurrentSentence("");
-    setIndicateur("3");
-  }
-  
-  
-    if(indicateur === "1"){
-      return(
-        <>
-          <h1>ToDo List</h1>
-          
-            <input
-              value={currentSentence}
-              onChange={handleChange}
-              placeholder="Entrez une chose à faire"
-            />
-            <button onClick={handleClick}>ajouter</button>
-            <button onClick={handleClick2}>supprimer</button>
-            <button onClick={handleClick3} title="permet de rechercher une des choses à faire en fonctions des mots qu il contient">rechercher</button>
-         
-          
-        
-      
-      <div>
-        voici la liste : 
-      <ul>
-        {sentences.map( (whatever,unique) => (
-          <li key={unique}> {whatever}</li>
-        ))}
-      </ul>
-    </div>
-    </>)
-    }
-    else if(indicateur === "2"){
-      return(
-      <>
-        <h1>ToDo List</h1>
-        
-          <input
-            value={currentSentence}
-            onChange={handleChange}
-            placeholder="Entrez une chose à faire"
-          />
-          <button onClick={handleClick}>ajouter</button>
-          <button onClick={handleClick2}>supprimer</button>
-          <button onClick={handleClick3} title="permet de rechercher une des choses à faire en fonctions des mots qu il contient">rechercher</button>
-       
-        
-      
-    
-    <div>
-      voici la liste une fois les elements supprimés : 
-    <ul>
-      {sentences.map( (whatever,unique) => (
-        <li key={unique}> {whatever}</li>
-      ))}
-    </ul>
-  </div>
-  </>)
-  }
-  else{
-     return( 
+  console.log({ sentences, filteredSentences, search })
+  return (
     <>
       <h1>ToDo List</h1>
-      
-        <input
-          value={currentSentence}
-          onChange={handleChange}
-          placeholder="Entrez une chose à faire"
-        />
-        <button onClick={handleClick}>ajouter</button>
-        <button onClick={handleClick2}>supprimer</button>
-        <button onClick={handleClick3} title="permet de rechercher une des choses à faire en fonctions des mots qu il contient">rechercher</button>
-     
+
+      <input
+        value={currentSentence}
+        onChange={handleChange}
+        placeholder="add a element to ur list"
+      />
+      <input
+
+        onChange={handleSearch}
+        placeholder="Search for a element in your list"
+      />
+      <button onClick={handleClick}>add</button>
+      <ul>
+        {filteredSentences.map(whatever => (
+          <li key={whatever}> {whatever}</li>
+        ))}
+      </ul>
+    </>
+
+
+  )
+  /*return (
+    <>
+      <h1>ToDo List</h1>
+
+      <input
+        value={currentSentence}
+        onChange={handleChange}
+        placeholder="Entrez une chose à faire"
+      />
+      <button onClick={handleClick}>add</button>
+      <button onClick={handleClick2}>delete</button>
+      <button onClick={handleClick3} >search</button>
+      <div>
+        {
+          indicateur === "1" ? <><span>List :</span>
+            <ul>
+              {sentences.map((whatever, unique) => (
+                <li key={unique}> {whatever}</li>
+              ))}
+            </ul> </> : indicateur === "2" ? <div>
+              here s the list without deleted elements  :
+              <ul>
+                {sentences.map((whatever, unique) => (
+                  <li key={unique}> {whatever}</li>
+                ))}
+              </ul>
+            </div> : indicateur === "3" ? <div>
+              elements including what u searched for :
+              <ul>
+                {voila.map((whatever, unique) => (
+                  <li key={unique}> {whatever}</li>
+                ))}
+              </ul>
+            </div> : console.log("cant happen") } 
+            </div>
+            </>  
+            
       
     
-  
-  <div>
-    les elements correspondants à votre recherche: 
-  <ul>
-    {voila.map( (whatever,unique) => (
-      <li key={unique}> {whatever}</li>
-    ))}
-  </ul>
-</div>
-</>)
+  )*/
+
 }
-    }
-    
+
+
 
 ReactDOM.render(<Main />, app);
