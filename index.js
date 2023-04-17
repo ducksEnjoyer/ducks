@@ -2,7 +2,7 @@ const express = require("express")
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("la baguette bien chaude du boulanger miam miam")
+  res.send("la baguette bien chaude du boulanger miam miam miam")
 })
 app.get("/first", (req, res) => {
   res.send("la bonnnnnne baguette")
