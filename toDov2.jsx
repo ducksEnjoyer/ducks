@@ -28,7 +28,7 @@ function Main(){
         setSearch(e.target.value)
     }
    React.useEffect(() => {
-        setFilteredSentences(list.filter((s) => s.sentence.includes(search)))
+        setFilteredSentences(list.filter((s) => s.sentence.toLowerCase().includes(search.toLowerCase())))
         search == "" ? setIsEditing(false) : setIsEditing(true) 
       }, [search, list])
     React.useEffect(()=>{

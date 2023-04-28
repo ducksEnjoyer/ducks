@@ -1,35 +1,30 @@
 const app = document.getElementById("app");
 function Main() {
   const [todoInput, setTodoInput] = React.useState("");
-  const [todos, setTodos] = React.useState({});
+  const [todos, setTodos] = React.useState([]);
   const [id, setId] = React.useState(0);
   const [search, setSearch] = React.useState("");
-  const [filteredTodos, setFilteredTodos] = React.useState({});
+  const [filteredTodos, setFilteredTodos] = React.useState([]);
 
   React.useEffect(() => {
-    const newFilteredTodos = Object.entries(todos).filter(([id, todo]) =>
-      todo.toLowerCase().includes(search.toLowerCase())
+    setFilteredTodos(
+      todos.filter(({ id, text }) =>
+        text.toLowerCase().includes(search.toLowerCase())
+      )
     );
-    const filteredTodosObject = newFilteredTodos.reduce((acc, [id, todo]) => {
-      acc[id] = todo;
-      return acc;
-    }, {});
-
-    setFilteredTodos(filteredTodosObject);
   }, [search, todos]);
 
   function createTodo() {
-    setTodos({ ...todos, [id]: todoInput });
+    setTodos([...todos, { text: todoInput, id: Math.random() * 100000 }]);
     setTodoInput("");
-    setId(id + 1);
   }
   function deleteTodo(id) {
-    delete todos[id];
-    setTodos({ ...todos });
+    setTodos(todos.filter((todo) => todo.id !== id));
   }
   function editTodo(id, newText) {
-    todos[id] = newText;
-    setTodos({ ...todos });
+    setTodos(
+      todos.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+    );
   }
   return (
     <>
@@ -48,13 +43,13 @@ function Main() {
       />
       <div>
         <ul>
-          {Object.entries(filteredTodos).map(([id, todoText]) => (
+          {filteredTodos.map(({ id, text }) => (
             <li key={id}>
               <Todo
                 handleDelete={() => deleteTodo(id)}
                 handleEdit={(newText) => editTodo(id, newText)}
               >
-                {todoText}
+                {text}
               </Todo>
             </li>
           ))}
