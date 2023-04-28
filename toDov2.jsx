@@ -10,6 +10,7 @@ function Main(){
     const [isEditing,setIsEditing] = React.useState(false)
     const [isEditingV2,setIsEditingV2] = React.useState(false)
     const [something,setSomething] = React.useState(null)
+    const [thisOne,setThisOne] = React.useState(null)
     function handleChange(e){
         setCurrentSentence(e.target.value);
     }
@@ -18,6 +19,7 @@ function Main(){
         setCurrentObj({id:increment,sentence:currentSentence})
         setCurrentSentence("")
         setIncrement(increment +1);
+        setSearch("");
         }
     function handleCanard(id){
      setList(list.filter((a) => a.id !== id))
@@ -36,9 +38,9 @@ function Main(){
     },[currentObj,list])
     React.useEffect(()=>{
         something == null ? console.log(list) :
-      list.map((lis)=>{
-            lis.id == something ? 
-            lis.sentence = atom :
+      list.map((listItem)=>{
+            listItem.id == something ? 
+            listItem.sentence = atom :
             console.log("osef") ; 
             setSomething(null)})
         setIsEditingV2(false)
@@ -64,8 +66,13 @@ function Main(){
            {
             isEditing==false ? 
             
-            list.map((lis) => <div style={{display: "flex", gap:"10px"}}><li key={lis.id}>{ isEditingV2==false ?   lis.sentence : <><input onChange={(e)=>setAtom(e.target.value)}  placeholder="what u wanna change"/> <button  style={{backgroundColor: "purple"}} onClick={() => setSomething(lis.id)}>confirm edit</button></>}<button style={{backgroundColor: "red"}} onClick={() => handleCanard(lis.id)}>remove</button><button style={{backgroundColor: "orange"}} onClick={(()=> isEditingV2 == false ? setIsEditingV2(true):setIsEditingV2(false))}>edit</button></li></div>) : 
-            filteredSentences.map((gah) => <div style={{display: "flex", gap:"10px"}}><li key={gah.id}>{ isEditingV2==false ?   gah.sentence : <><input onChange={(e)=>setAtom(e.target.value)}  placeholder="what u wanna change"/> <button style={{backgroundColor: "purple"}} onClick={() => setSomething(lis.id)}>confirm edit</button></>}<button  style={{backgroundColor: "red"}} onClick={() => handleCanard(gah.id)} >remove</button><button style={{backgroundColor: "orange"}} onClick={(()=> isEditingV2 == false ? setIsEditingV2(true):setIsEditingV2(false))}>edit</button></li></div>)
+            list.map((listItem) => <div style={{display: "flex", gap:"10px"}}>
+                <li key={listItem.id}>{ isEditingV2==false || thisOne != listItem.id ?   listItem.sentence : <><input onChange={(e)=>setAtom(e.target.value)}  placeholder="what u wanna change"/>
+                <button  style={{backgroundColor: "purple"}} onClick={() => setSomething(listItem.id)}>confirm edit</button></>}
+            <button style={{backgroundColor: "red"}} onClick={() => handleCanard(listItem.id)}>remove</button>
+            <button style={{backgroundColor: "orange"}} onClick={(()=> isEditingV2 == false ? (setIsEditingV2(true) ,setThisOne(listItem.id)) :setIsEditingV2(false))}>edit</button></li></div>) 
+            : 
+            filteredSentences.map((listItem) => <div style={{display: "flex", gap:"10px"}}><li key={listItem.id}>{ isEditingV2==false ?   listItem.sentence : <><input onChange={(e)=>setAtom(e.target.value)}  placeholder="what u wanna change"/> <button style={{backgroundColor: "purple"}} onClick={() => setSomething(listItem.id)}>confirm edit</button></>}<button  style={{backgroundColor: "red"}} onClick={() => handleCanard(listItem.id)} >remove</button><button style={{backgroundColor: "orange"}} onClick={(()=> isEditingV2 == false ? setIsEditingV2(true):setIsEditingV2(false))}>edit</button></li></div>)
            }
         </ul></div>)}
 ReactDOM.render(<Main />, app);
